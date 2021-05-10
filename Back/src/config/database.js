@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 // ==> Conexão com a Base de Dados:
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+  connectionString: "postgres://postgres:docker@localhost:5432/BD"
 });
 
 pool.on('connect', () => {

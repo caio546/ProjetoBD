@@ -1,12 +1,9 @@
-const db = require("../config/database");
+const galaxyModel = require("../models/galaxy.model");
 
 exports.createGalaxy = async (req, res) => {
   const { Nome, Formato, Localizacao } = req.body;
 
-  const { rows } = await db.query(
-    "INSERT INTO galaxia (Nome, Formato, Localizacao) VALUES ($1, $2, $3)",
-    [Nome, Formato, Localizacao]
-  );
+  await galaxyModel.create({ Nome, Formato, Localizacao});
 
   res.status(201).send({
     message: "Galaxy added successfully!",
@@ -17,32 +14,27 @@ exports.createGalaxy = async (req, res) => {
 };
 
 exports.listAllGalaxies = async (req, res) => {
-  const response = await db.query('SELECT * FROM galaxia ORDER BY Nome ASC');
+  const response = await galaxyModel.findAll();
   res.status(200).send(response.rows);
 };
 
 exports.findGalaxyById = async (req, res) => {
   const galaxyId = parseInt(req.params.id);
-  const response = await db.query('SELECT * FROM galaxia WHERE Galaxia_ID = $1', [galaxyId]);
+  const response = await galaxyModel.findById(galaxyId);
   res.status(200).send(response.rows);
 }
 
 exports.updateGalaxyById = async (req, res) => {
   const galaxyId = parseInt(req.params.id);
   const { Nome, Formato, Localizacao } = req.body;
-  const response = await db.query(
-    "UPDATE galaxia SET Nome = $1, Formato = $2, Localizacao = $3 WHERE Galaxia_ID = $4",
-    [Nome, Formato, Localizacao, galaxyId]
-  );
+  await galaxyModel.update({Nome, Formato, Localizacao, galaxyId});
   res.status(200).send({ message: "Galaxy Updated Successfully!" });
 };
 
 exports.deleteGalaxyById = async (req, res) => {
   const galaxyId = parseInt(req.params.id);
 
-  await db.query('DELETE FROM galaxia WHERE Galaxia_ID = $1', [
-    galaxyId
-  ]);
+  await galaxyModel.delete(galaxyId);
 
   res.status(200).send({ message: 'Galaxy deleted successfully!', galaxyId });
 };
