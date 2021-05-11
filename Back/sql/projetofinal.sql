@@ -1,6 +1,118 @@
+DROP TABLE IF EXISTS Satelite;
+DROP TABLE IF EXISTS Estrela;
+DROP TABLE IF EXISTS Planeta;
+DROP TABLE IF EXISTS BuracoNegro;
+DROP TABLE IF EXISTS Meteorito;
+DROP TABLE IF EXISTS Asteroide;
+DROP TABLE IF EXISTS Cometa;
+DROP TABLE IF EXISTS Meteoro;
+DROP TABLE IF EXISTS SistemaPlanetario;
+DROP TABLE IF EXISTS Galaxia;
+
 CREATE TABLE Galaxia (
     Galaxia_ID SERIAL PRIMARY KEY,
-    Nome VARCHAR(45) NOT NULL,
+    Nome VARCHAR(45) NOT NULL UNIQUE,
     Formato VARCHAR(45) NOT NULL,
-    Localizacao VARCHAR(45)
+    Localizacao VARCHAR(45) NOT NULL
+);
+
+CREATE TABLE SistemaPlanetario (
+	Sistema_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL UNIQUE,
+	Tipo VARCHAR(45) NOT NULL,
+	Massa INT NOT NULL,
+	Tamanho INT NOT NULL,
+	Galaxia_ID SERIAL NOT NULL,
+	CONSTRAINT fk_galaxia
+	FOREIGN KEY(Galaxia_ID)
+	REFERENCES Galaxia(Galaxia_ID)
+);
+
+CREATE TABLE Meteoro (
+	Meteoro_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL,
+	VelocidadeQueda INT NOT NULL,
+	Sistema_ID SERIAL NOT NULL,
+	CONSTRAINT fk_sistema
+	FOREIGN KEY(Sistema_ID)
+	REFERENCES SistemaPlanetario(Sistema_ID)
+);
+
+CREATE TABLE Cometa (
+	Cometa_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL,
+	TamanhoCauda INT NOT NULL,
+	Sistema_ID SERIAL NOT NULL,
+	CONSTRAINT fk_sistema
+	FOREIGN KEY(Sistema_ID)
+	REFERENCES SistemaPlanetario(Sistema_ID)
+);
+
+CREATE TABLE Asteroide (
+	Asteroide_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL,
+	Tamanho VARCHAR(45) NOT NULL,
+	Sistema_ID SERIAL NOT NULL,
+	CONSTRAINT fk_sistema
+	FOREIGN KEY(Sistema_ID)
+	REFERENCES SistemaPlanetario(Sistema_ID)
+);
+
+CREATE TABLE Meteorito (
+	Meteorito_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL,
+	Material VARCHAR(45) NOT NULL,
+	Sistema_ID SERIAL NOT NULL,
+	CONSTRAINT fk_sistema
+	FOREIGN KEY(Sistema_ID)
+	REFERENCES SistemaPlanetario(Sistema_ID)
+);
+
+CREATE TABLE BuracoNegro (
+	Buraco_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL,
+	Densidade INT NOT NULL,
+	Sistema_ID SERIAL NOT NULL,
+	CONSTRAINT fk_sistema
+	FOREIGN KEY(Sistema_ID)
+	REFERENCES SistemaPlanetario(Sistema_ID)
+);
+
+CREATE TABLE Planeta (
+	Planeta_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL,
+	Localizacao VARCHAR(45) NOT NULL,
+	Diametro INT NOT NULL,
+	Material VARCHAR(45) NOT NULL,
+	Gravidade INT NOT NULL,
+	Tipo VARCHAR(45) NOT NULL,
+	Idade INT NOT NULL,
+	Sistema_ID SERIAL NOT NULL,
+	CONSTRAINT fk_sistema
+	FOREIGN KEY(Sistema_ID)
+	REFERENCES SistemaPlanetario(Sistema_ID)
+);
+
+CREATE TABLE Estrela (
+	Estrela_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL,
+	Cor VARCHAR(45) NOT NULL,
+	Luminosidade VARCHAR(45) NOT NULL,
+	Temperatura INT NOT NULL,
+	Foto BYTEA,
+	Sistema_ID SERIAL NOT NULL,
+	CONSTRAINT fk_sistema
+	FOREIGN KEY(Sistema_ID)
+	REFERENCES SistemaPlanetario(Sistema_ID)
+);
+
+CREATE TABLE Satelite (
+	Satelite_ID SERIAL PRIMARY KEY,
+	Nome VARCHAR(45) NOT NULL,
+	Tipo VARCHAR(45) NOT NULL,
+	TamanhoOrbita VARCHAR(45) NOT NULL,
+	Planeta_ID SERIAL NOT NULL,
+	CONSTRAINT fk_planeta
+	FOREIGN KEY(Planeta_ID)
+	REFERENCES Planeta(Planeta_ID)
 );
