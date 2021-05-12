@@ -1,9 +1,11 @@
 const starModel = require("../models/star.model");
+const db = require("../config/database");
 
 exports.createStar = async (req, res) => {
   const { Nome, Cor, Luminosidade, Temperatura, Sistema_ID } = req.body;
+  const Foto = req.file ? req.file.buffer : null;
 
-  await starModel.create({ Nome, Cor, Luminosidade, Temperatura, Sistema_ID });
+  await starModel.create({ Nome, Cor, Luminosidade, Temperatura, Foto, Sistema_ID });
 
   res.status(201).send({
     message: "Star added successfully!",
@@ -27,7 +29,10 @@ exports.findStarById = async (req, res) => {
 exports.updateStarById = async (req, res) => {
   const starId = parseInt(req.params.id);
   const { Nome, Cor, Luminosidade, Temperatura, Sistema_ID } = req.body;
-  await starModel.update({ Nome, Cor, Luminosidade, Temperatura, Sistema_ID, starId });
+  const Foto = req.file ? req.file.buffer : null;
+
+  await starModel.update({ Nome, Cor, Luminosidade, Temperatura, Foto, Sistema_ID, starId });
+
   res.status(200).send({ message: "Star Updated Successfully!" });
 };
 

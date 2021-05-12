@@ -97,7 +97,7 @@ CREATE TABLE Estrela (
 	Estrela_ID SERIAL PRIMARY KEY,
 	Nome VARCHAR(45) NOT NULL UNIQUE,
 	Cor VARCHAR(45) NOT NULL,
-	Luminosidade VARCHAR(45) NOT NULL,
+	Luminosidade INT NOT NULL,
 	Temperatura INT NOT NULL,
 	Foto BYTEA,
 	Sistema_ID SERIAL NOT NULL,
