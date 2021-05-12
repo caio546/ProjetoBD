@@ -10,7 +10,7 @@ exports.create = async ({Nome, Formato, Localizacao}) => {
 }
 
 exports.findAll = async () => {
-  const response = await db.query('SELECT * FROM galaxia ORDER BY Nome ASC');
+  const response = await db.query('SELECT * FROM galaxia ORDER BY Galaxia_ID ASC');
   return response;
 }
 
