@@ -6,4 +6,9 @@ export const Container = styled.div`
   justify-content: space-between;
   flex-direction: column;
   height: 100vh;
+
+  input {
+    background-color: #0ea;
+    color: #000;
+  }
 `;

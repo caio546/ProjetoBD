@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Container } from './styles';
 
 import api from '../../services/api';
@@ -115,6 +116,7 @@ export const ObjectTable = (props: Iprops) => {
                 <th>Cor</th>
                 <th>Luminosidade</th>
                 <th>Temperatura</th>
+                <th></th>
               </tr>
           </thead>
           {
@@ -137,6 +139,14 @@ export const ObjectTable = (props: Iprops) => {
                   <td>{star.cor}</td>
                   <td>{star.luminosidade}</td>
                   <td>{star.temperatura}</td>
+                  <td>
+                    <Link to={{
+                      pathname: `/list/${star.estrela_id}`,
+                      search: 'stars'
+                    }} >
+                      Ver mais
+                    </Link>
+                  </td>
                 </tr>
               </tbody>
               )

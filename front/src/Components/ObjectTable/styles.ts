@@ -47,6 +47,14 @@ export const Container = styled.div`
         height: 100px;
       }
 
+      button {
+        background-color: #0ea;
+        color: #000;
+        border-radius: 10px;
+        width: 60px;
+        height: 18px;
+      }
+
       &::first-child {
         font: bold;
       }

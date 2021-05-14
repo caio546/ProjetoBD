@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useParams, useLocation } from 'react-router-dom';
 
 import api from '../../services/api';
 import { Container } from './styles';
@@ -15,24 +15,62 @@ interface Iparams {
 }
 
 export const ListObject = ({ match }: RouteComponentProps<Iparams>) => {
+  const location = useLocation();
 
-  const [galaxies, setGalaxies] = useState<Galaxy>({ galaxia_id: 0, nome: '...', formato: '', localizacao: '' });
-  const [planets, setPlanets] = useState<Planet>({ planeta_id: 0, nome: '...', diametro: 0, localizacao: '', gravidade: 0 , material: '', idade: 0, tipo: ''});
-  // const [stars, setStars] = useState<Star>({ galaxia_id: 0, nome: '...', formato: '', localizacao: '' });
-  // const [systems, setSystems] = useState<System>({ galaxia_id: 0, nome: '...', formato: '', localizacao: '' });
+  const [galaxies, setGalaxies] = useState<Galaxy>();
+  const [planets, setPlanets] = useState<Planet>();
+  const [stars, setStars] = useState<Star>();
+  const [systems, setSystems] = useState<System>();
 
   useEffect(() => {
     api.get(`/galaxies/${match.params.id}`)
     .then(response => setGalaxies(response.data[0]))
   }, [match.params.id]);
 
-  return (
-    <Container>
-      <Header/>
-      <ul>
-        <li>{galaxies.nome}</li>
-      </ul>
-      <Footer/>
-    </Container>
-  )
+  useEffect(() => {
+    api.get(`/planets/${match.params.id}`)
+    .then(response => setPlanets(response.data[0]))
+  }, [match.params.id]);
+
+  useEffect(() => {
+    api.get(`/stars/${match.params.id}`)
+    .then(response => setStars(response.data[0]))
+  }, [match.params.id]);
+
+  useEffect(() => {
+    api.get(`/systems/${match.params.id}`)
+    .then(response => setSystems(response.data[0]))
+  }, [match.params.id]);
+
+
+  switch(location.search.replace('?', '')) {
+    case 'stars':
+      return (
+        <Container>
+          <Header/>
+            <div>
+              <input type="text" value={stars?.nome} />
+              <input type="text" value={stars?.cor}/>
+              <input type="text" value={stars?.temperatura}/>
+              <input type="text" value={stars?.luminosidade}/>
+            </div>
+          <Footer/>
+        </Container>
+      );
+    default:
+      return (
+        <Container >
+          <h2>OIII</h2>
+        </Container>
+      )
+  }
+  // return (
+  //   <Container>
+  //     <Header/>
+  //     <ul>
+  //       <li>""</li>
+  //     </ul>
+  //     <Footer/>
+  //   </Container>
+  // )
 }
