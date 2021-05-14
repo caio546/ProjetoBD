@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState, useCallback, ChangeEvent } from 'react';
 
 import {Header} from '../../Components/Header';
 import {SelectBar} from '../../Components/SelectBar';
@@ -17,6 +17,8 @@ export const Add = () => {
   const [planets, setPlanets] = useState<Planet>({ planeta_id: 0, nome: '', diametro: 0, localizacao: '', gravidade: 0 , material: '', idade: 0, tipo: ''});
   const [stars, setStars] = useState<Star>({ estrela_id: 0, nome: '', cor: '', luminosidade: 0, temperatura: 0});
   const [systems, setSystems] = useState<System>({ sistema_id: 0, nome: '', massa: 0, tamanho: 0, tipo: '' });
+
+  const [selectedFile, setSelectedFile] = useState<FileList | null>();
 
   const [allGalaxies, setAllGalaxies] = useState<Galaxy[]>([]);
   const [allSystems, setAllSystems] = useState<System[]>([]);
@@ -40,6 +42,15 @@ export const Add = () => {
     api.get(`/systems/${id}`)
     .then(response => setSystems(response.data[0]))
   }
+
+  const handleAvatarChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const data = new FormData();
+
+      data.append('Foto', e.target.files[0]);
+
+    }
+  }, []);
 
   const handleCreateObject = (event: FormEvent) => {
     event.preventDefault();
@@ -76,17 +87,19 @@ export const Add = () => {
       }
       param = "planets";
     }else if(buttonClicked === 1) {
-      data = {
-        Nome: stars.nome,
-        Cor: stars.cor,
-        Luminosidade: stars.luminosidade,
-        Temperatura: stars.temperatura,
-        Sistema_ID: systems.sistema_id
-      }
+      const data = new FormData();
+      data.append('Nome', stars.nome);
+      data.append('Cor', stars.cor);
+      data.append('Luminosidade', String(stars.luminosidade));
+      data.append('Temperatura', String(stars.temperatura));
+      data.append('Sistema_ID', String(systems.sistema_id));
+      data.append('Foto', selectedFile ? selectedFile[0] : '');
       param = "stars";
+      api.post(`/${param}`, data);
     }
-
-    api.post(`/${param}`, data);
+    if (buttonClicked !== 1) {
+      api.post(`/${param}`, data);
+    }
 
     console.log(data);
   }
@@ -149,7 +162,6 @@ export const Add = () => {
               {allGalaxies.map(galaxy => (
                 <option value = {galaxy.galaxia_id}>{galaxy.nome}</option>
               ))}
-            
             </select>
 
             <button type="submit">
@@ -205,7 +217,7 @@ export const Add = () => {
             </select>
 
             <button type="submit">
-              Cadastrar Sistema
+              Cadastrar Planeta
             </button>
           </>,
           1:
@@ -242,8 +254,10 @@ export const Add = () => {
       
             </select>
 
+            <input type="file" id="foto" onChange={(e) => setSelectedFile(e.target.files)} />
+
             <button type="submit">
-              Cadastrar Sistema
+              Cadastrar Estrela
             </button>
           </>
       }[buttonClicked]

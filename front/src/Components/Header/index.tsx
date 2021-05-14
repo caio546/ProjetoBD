@@ -11,10 +11,10 @@ export const Header = () =>{
           </Logo>
           <Navigation>
             <Link to="/List">
-              <text style={{fontFamily: "Girassol", fontSize:"20px", padding: "20px 40px"}}>List</text>
+              <h2 style={{fontFamily: "Girassol", fontSize:"20px", padding: "20px 40px"}}>List</h2>
             </Link>
             <Link to="/Add">
-              <text style={{fontFamily: "Girassol", fontSize:"20px", padding: "20px 40px"}}>Add</text>
+              <h2 style={{fontFamily: "Girassol", fontSize:"20px", padding: "20px 40px"}}>Add</h2>
             </Link>
           </Navigation>
       </Container>

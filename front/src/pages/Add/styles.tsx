@@ -41,6 +41,7 @@ export const Modal = styled.form`
     padding: 0 1.5rem;
     height: 4rem;
     border-radius: 0.25rem;
+    margin-top: 24px;
 
     border: 1px solid #d7d7d7;
     background: #e7e9ee;
