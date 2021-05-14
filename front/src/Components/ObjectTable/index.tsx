@@ -14,8 +14,8 @@ export interface Star {
   estrela_id: number;
   nome: string;
   cor: string;
-  luminosidade: string;
-  temperatura: string;
+  luminosidade: number;
+  temperatura: number;
 }
 
 export interface System {

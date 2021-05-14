@@ -5,11 +5,20 @@ export const Container = styled.div`
   margin-top: 4rem;
   align-items: flex-start;
   justify-content: center;
+  overflow: auto;
+  position: sticky;
   height: 100%;
 
   table {
     width: 100%;
     border-spacing: 0 0.5rem;
+
+    thead th { 
+      position: sticky;
+      top: 0; 
+      z-index: 1; 
+      background-color: #000;
+    }
 
     th {
       color: #0ea;

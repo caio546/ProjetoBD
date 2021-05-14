@@ -8,7 +8,7 @@ export const Routes = () => {
   return (
     <BrowserRouter>
       <Route component={ListAll} path="/List" exact />
-      <Route component={ListObject} path="/List/:object/:id" exact />
+      <Route component={ListObject} path="/List/:id" exact />
       <Route component={Add} path="/Add" exact />
     </BrowserRouter>
   );
