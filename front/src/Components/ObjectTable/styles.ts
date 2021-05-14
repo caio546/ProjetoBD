@@ -42,6 +42,11 @@ export const Container = styled.div`
       font-family: "Girassol";
       font-size: 20px;
 
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
       &::first-child {
         font: bold;
       }

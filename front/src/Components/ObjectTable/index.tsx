@@ -16,6 +16,9 @@ export interface Star {
   cor: string;
   luminosidade: number;
   temperatura: number;
+  foto?: {
+    data: ArrayBufferLike;
+  }
 }
 
 export interface System {
@@ -68,6 +71,16 @@ export const ObjectTable = (props: Iprops) => {
     .then(response => setPlanets(response.data))
   }, []);
 
+  const toBase64 = (buffer: ArrayBufferLike) => {
+    var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode( bytes[i] );
+    }
+    return window.btoa( binary );
+  }
+
   const renderObject = () => {
     return(
       {
@@ -97,6 +110,7 @@ export const ObjectTable = (props: Iprops) => {
         <>
           <thead>
               <tr>
+                <th>Imagem</th>
                 <th>Nome</th>
                 <th>Cor</th>
                 <th>Luminosidade</th>
@@ -107,6 +121,18 @@ export const ObjectTable = (props: Iprops) => {
             stars.map(star =>(
               <tbody>
                 <tr key={star.estrela_id}>
+                  {star.foto ?
+                    (
+                      <td>
+                        <img id="foto" src={`data:image/png;base64,${toBase64(star?.foto?.data ? star?.foto?.data : new ArrayBuffer(0))}`} />
+                      </td>
+                    ) :
+                    (
+                      <td>
+                        <img id="foto" src={"https://image.flaticon.com/icons/png/512/1695/1695213.png"} />
+                      </td>
+                    )
+                  }
                   <td>{star.nome}</td>
                   <td>{star.cor}</td>
                   <td>{star.luminosidade}</td>

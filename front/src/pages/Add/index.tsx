@@ -15,7 +15,7 @@ export const Add = () => {
 
   const [galaxies, setGalaxies] = useState<Galaxy>({ galaxia_id: 0, nome: '', formato: '', localizacao: '' });
   const [planets, setPlanets] = useState<Planet>({ planeta_id: 0, nome: '', diametro: 0, localizacao: '', gravidade: 0 , material: '', idade: 0, tipo: ''});
-  const [stars, setStars] = useState<Star>({ estrela_id: 0, nome: '', cor: '', luminosidade: 0, temperatura: 0});
+  const [stars, setStars] = useState<Star>({ estrela_id: 0, nome: '', cor: '', luminosidade: 0, temperatura: 0, foto: undefined});
   const [systems, setSystems] = useState<System>({ sistema_id: 0, nome: '', massa: 0, tamanho: 0, tipo: '' });
 
   const [selectedFile, setSelectedFile] = useState<FileList | null>();
